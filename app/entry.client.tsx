@@ -1,10 +1,10 @@
 import { RemixBrowser } from "@remix-run/react";
 import { useState } from "react";
-import { hydrate } from "react-dom";
+import { hydrateRoot } from "react-dom/client";
 
 import { CacheProvider } from "@emotion/react";
 import { ClientStyleContext } from "./context";
-import { cssCache } from "./css-cache.client";
+import { cssCache } from "./css-cache";
 
 interface ClientCacheProviderProps {
   children: React.ReactNode;
@@ -22,15 +22,9 @@ function ClientCacheProvider({ children }: ClientCacheProviderProps) {
   );
 }
 
-hydrate(
+hydrateRoot(
+  document,
   <ClientCacheProvider>
     <RemixBrowser />
-  </ClientCacheProvider>,
-  document
+  </ClientCacheProvider>
 );
-// hydrateRoot(
-//   document,
-//   <ClientCacheProvider>
-//     <RemixBrowser />
-//   </ClientCacheProvider>
-// );

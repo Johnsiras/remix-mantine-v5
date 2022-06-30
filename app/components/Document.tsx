@@ -1,21 +1,19 @@
-import { MantineProvider } from "@mantine/core";
+import { createEmotionCache, MantineProvider } from "@mantine/core";
 import {
   Links,
   LiveReload,
   Meta,
-  Outlet,
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
 import { type ReactNode, useContext, useEffect } from "react";
 import { ClientStyleContext } from "~/context";
-import { cssCache } from "~/css-cache.client";
 
 export function Document({ children }: { children: ReactNode }) {
   const clientStyleData = useContext(ClientStyleContext);
+  const cache = createEmotionCache({ key: "mantine" });
 
   useEffect(() => {
-    const cache = cssCache;
     cache.sheet.container = document.head;
     const tags = cache.sheet.tags;
     cache.sheet.flush();
@@ -33,10 +31,8 @@ export function Document({ children }: { children: ReactNode }) {
       </head>
       <body>
         <MantineProvider
-          theme={{
-            colorScheme: "dark",
-          }}
-          emotionCache={cssCache}
+          theme={{ colorScheme: "dark" }}
+          emotionCache={cache}
           withGlobalStyles
           withNormalizeCSS
         >
